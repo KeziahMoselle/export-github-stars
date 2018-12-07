@@ -7,7 +7,7 @@
       flat>
     </v-toolbar>
 
-    <v-layout row pb-2>
+    <v-layout row pb-5>
       <v-flex xs10 offset-xs1 md8 offset-md2 xl6 offset-xl3>
         <v-card class="card--flex-toolbar">
           <v-toolbar card prominent>
@@ -62,7 +62,10 @@
 
             <error v-if="error && starredRepos.length === 0" :message="error"></error>
             <no-data v-if="starredRepos.length === 0 && !loading && !error"></no-data>
-            <v-progress-linear v-else-if="loading" color="black" indeterminate></v-progress-linear>
+            <template v-else-if="loading">
+              <v-progress-linear color="black" indeterminate></v-progress-linear>
+              <h3 class="text-xs-center">Type enter to search for : {{ username }}</h3>
+            </template>
             
             <template v-if="starredRepos.length > 0">
 
