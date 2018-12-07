@@ -17,6 +17,8 @@
                 v-model="username"
                 @keydown.enter="fetchStarredRepos"
                 label="Enter a GitHub username..."
+                append-icon="search"
+                @click:append="fetchStarredRepos"
                 solo>
               </v-text-field>
               <v-menu transition="slide-y-transition" bottom>
@@ -44,7 +46,22 @@
 
           <v-card-text>
 
-            <no-data v-if="starredRepos.length === 0 && !loading"></no-data>
+            <v-snackbar
+              v-model="snackbar"
+              timeout="5000"
+              top>
+              This feature is under development...
+              <v-btn
+                color="white"
+                flat
+                @click="snackbar = false">
+                close
+                <v-icon right>close</v-icon>
+              </v-btn>
+            </v-snackbar>
+
+            <error v-if="error" :message="error"></error>
+            <no-data v-if="starredRepos.length === 0 && !loading && !error"></no-data>
             <v-progress-linear v-if="loading && !starredRepos" color="black" indeterminate></v-progress-linear>
             
             <template v-if="starredRepos.length > 0">
@@ -99,12 +116,15 @@
 <script>
 import axios from 'axios'
 import linkParser from 'parse-link-header'
+
 import NoData from '@/components/NoData'
+import Error from '@/components/Error'
 
 export default {
   name: 'CardInput',
   components: {
-    NoData
+    NoData,
+    Error
   },
   data () {
     return {
@@ -113,7 +133,8 @@ export default {
       lastPage: null,
       loading: false,
       starredRepos: [],
-      error: null
+      error: null,
+      snackbar: false
     }
   },
   methods: {
@@ -123,7 +144,6 @@ export default {
       try {
         // Fetch the first page
         if (!nextUrl) {
-          this.loading = false
           const response = await axios.get(url)
           this.updateStarredRepos(response.data)
           // Check if there is an another page
@@ -153,9 +173,8 @@ export default {
           html_url: star.html_url,
           stars: star.stargazers_count
         }))
-        this.loading = false
       } catch (error) {
-        this.error = error
+        this.error = error.response.data.message
       }
     },
     updateStarredRepos (newStarredRepos) {
@@ -168,9 +187,11 @@ export default {
       this.starredRepos = [...this.starredRepos, ...newRepos]
     },
     exportToHTML () {
+      this.snackbar = true
       console.log('Export to HTML')
     },
     exportToJSON () {
+      this.snackbar = true
       console.log('Export to JSON')
     }
   },
