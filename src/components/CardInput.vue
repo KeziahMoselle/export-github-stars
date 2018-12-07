@@ -48,7 +48,7 @@
 
             <v-snackbar
               v-model="snackbar"
-              timeout="5000"
+              :timeout="5000"
               top>
               This feature is under development...
               <v-btn

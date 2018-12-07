@@ -4,18 +4,21 @@
     <v-content>
       <card-input></card-input>
     </v-content>
+    <Footer></Footer>
   </v-app>
 </template>
 
 <script>
 import Navbar from '@/components/Navbar'
 import CardInput from '@/components/CardInput'
+import Footer from '@/components/Footer'
 
 export default {
   name: 'App',
   components: {
     Navbar,
-    CardInput
+    CardInput,
+    Footer
   }
 }
 </script>
