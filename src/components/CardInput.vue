@@ -62,7 +62,7 @@
 
             <error v-if="error && starredRepos.length === 0" :message="error"></error>
             <no-data v-if="starredRepos.length === 0 && !loading && !error"></no-data>
-            <v-progress-linear v-else color="black" indeterminate></v-progress-linear>
+            <v-progress-linear v-else-if="loading" color="black" indeterminate></v-progress-linear>
             
             <template v-if="starredRepos.length > 0">
 
@@ -186,6 +186,7 @@ export default {
         stars: star.stargazers_count
       }))
       this.starredRepos = [...this.starredRepos, ...newRepos]
+      this.loading = false
     },
     exportToHTML () {
       this.snackbar = true
