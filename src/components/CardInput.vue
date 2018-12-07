@@ -12,14 +12,30 @@
         <v-card class="card--flex-toolbar">
           <v-toolbar card prominent>
 
-            <v-layout row wrap justify-space-around>
+            <v-layout row wrap>
               <v-text-field
                 v-model="username"
                 @keydown.enter="fetchStarredRepos"
                 label="Enter a GitHub username..."
                 solo>
               </v-text-field>
-              <v-btn color="success">text</v-btn>
+              <v-menu transition="slide-y-transition" bottom>
+                <v-btn
+                  slot="activator"
+                  class="btn-export"
+                  color="black"
+                  dark>
+                  Export to...
+                </v-btn>
+                <v-list>
+                  <v-list-tile @click="exportToHTML">
+                    <v-list-tile-title>HTML</v-list-tile-title>
+                  </v-list-tile>
+                  <v-list-tile @click="exportToJSON">
+                    <v-list-tile-title>JSON</v-list-tile-title>
+                  </v-list-tile>
+                </v-list>
+              </v-menu>
             </v-layout>
 
           </v-toolbar>
@@ -29,30 +45,33 @@
           <v-card-text>
 
             <no-data v-if="!starredRepos && !loading"></no-data>
-            <v-progress-linear v-if="loading" indeterminate></v-progress-linear>
+            <v-progress-linear v-if="loading && !starredRepos" color="black" indeterminate></v-progress-linear>
             
             <v-list v-if="starredRepos">
-              <v-list-tile
-                v-for="(star, index) in starredRepos"
-                :key="index"
-                avatar
-                :href="star.html_url">
-                <v-list-tile-avatar>
-                  <img :src="star.owner_img">
-                </v-list-tile-avatar>
+              <transition-group name="slide-x-transition" mode="out-in">
+                <v-list-tile
+                  v-for="(star, index) in starredRepos"
+                  :key="index"
+                  avatar
+                  :href="star.html_url"
+                  target="_blank">
+                  <v-list-tile-avatar>
+                    <img :src="star.owner_img">
+                  </v-list-tile-avatar>
 
 
-                <v-list-tile-content>
-                  <v-list-tile-title v-text="star.name"></v-list-tile-title>
-                </v-list-tile-content>
+                  <v-list-tile-content>
+                    <v-list-tile-title v-text="star.name"></v-list-tile-title>
+                  </v-list-tile-content>
 
-                <v-list-tile-action>
-                  <span>
-                    {{ star.stars }}
-                    <v-icon color="pink">star</v-icon>
-                  </span>
-                </v-list-tile-action>
-              </v-list-tile>
+                  <v-list-tile-action>
+                    <span>
+                      {{ star.stars }}
+                      <v-icon color="black">star</v-icon>
+                    </span>
+                  </v-list-tile-action>
+                </v-list-tile>
+              </transition-group>
             </v-list>
 
           </v-card-text>
@@ -94,6 +113,12 @@ export default {
       } catch (error) {
         this.error = error
       }
+    },
+    exportToHTML () {
+      console.log('Export to HTML')
+    },
+    exportToJSON () {
+      console.log('Export to JSON')
     }
   },
   watch: {
@@ -116,6 +141,11 @@ export default {
 
   .v-input__slot {
     margin-bottom: 0;
+  }
+
+  .btn-export {
+    height: 48px;
+    margin: 0;
   }
 
 </style>
