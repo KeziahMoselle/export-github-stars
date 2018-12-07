@@ -44,14 +44,20 @@
 
           <v-card-text>
 
-            <no-data v-if="!starredRepos && !loading"></no-data>
+            <no-data v-if="starredRepos.length === 0 && !loading"></no-data>
             <v-progress-linear v-if="loading && !starredRepos" color="black" indeterminate></v-progress-linear>
             
-            <template v-if="starredRepos">
+            <template v-if="starredRepos.length > 0">
 
-              <v-subheader>
-                {{ starredRepos.length }} starred repositories found.
-              </v-subheader>
+              <v-layout wrap justify-space-between>
+                <v-subheader>
+                  {{ starredRepos.length }} starred repositories found.
+                </v-subheader>
+
+                <v-subheader>
+                 Page : {{ page }} / {{ lastPage }}
+                </v-subheader>
+              </v-layout>
 
               <v-list>
                 <transition-group name="slide-x-transition" mode="out-in">
@@ -59,6 +65,7 @@
                     v-for="(star, index) in starredRepos"
                     :key="index"
                     avatar
+                    ripple
                     :href="star.html_url"
                     target="_blank">
                     <v-list-tile-avatar>
@@ -91,6 +98,7 @@
 
 <script>
 import axios from 'axios'
+import linkParser from 'parse-link-header'
 import NoData from '@/components/NoData'
 
 export default {
@@ -101,16 +109,44 @@ export default {
   data () {
     return {
       username: '',
+      page: 0,
+      lastPage: null,
       loading: false,
-      starredRepos: null,
+      starredRepos: [],
       error: null
     }
   },
   methods: {
-    async fetchStarredRepos () {
+    async fetchStarredRepos (event, nextUrl) {
+      this.page++
+      const url = nextUrl || `https://api.github.com/users/${this.username}/starred?per_page=100&page=${this.page}`
       try {
-        this.loading = true
-        const response = await axios.get(`https://api.github.com/users/${this.username}/starred`)
+        // Fetch the first page
+        if (!nextUrl) {
+          this.loading = false
+          const response = await axios.get(url)
+          this.updateStarredRepos(response.data)
+          // Check if there is an another page
+          const { url: nextUrl } = linkParser(response.headers.link).next
+          const { page: lastPage } = linkParser(response.headers.link).last
+          this.lastPage = lastPage
+          // If an another page exists, fetch the page
+          if (nextUrl) {
+            this.fetchStarredRepos(null, nextUrl)
+          }
+        } else { // nextUrl is defined
+          console.log(nextUrl)
+          // More pages, so fetch this page and add the result to the global array
+          const response = await axios.get(nextUrl)
+          this.updateStarredRepos(response.data)
+          // Check if there is an another page
+          const { url: anotherPage } = linkParser(response.headers.link).next
+          // If an another page exists, fetch the page
+          if (anotherPage) {
+            this.fetchStarredRepos(null, anotherPage)
+          }
+        }
+        console.log(linkHeader.next.url)
         this.starredRepos = response.data.map(star => ({
           name: star.full_name,
           owner_img: star.owner.avatar_url,
@@ -121,6 +157,15 @@ export default {
       } catch (error) {
         this.error = error
       }
+    },
+    updateStarredRepos (newStarredRepos) {
+      const newRepos = newStarredRepos.map(star => ({
+        name: star.full_name,
+        owner_img: star.owner.avatar_url,
+        html_url: star.html_url,
+        stars: star.stargazers_count
+      }))
+      this.starredRepos = [...this.starredRepos, ...newRepos]
     },
     exportToHTML () {
       console.log('Export to HTML')
