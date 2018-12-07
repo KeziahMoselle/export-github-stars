@@ -60,9 +60,9 @@
               </v-btn>
             </v-snackbar>
 
-            <error v-if="error" :message="error"></error>
+            <error v-if="error && starredRepos.length === 0" :message="error"></error>
             <no-data v-if="starredRepos.length === 0 && !loading && !error"></no-data>
-            <v-progress-linear v-if="loading && !starredRepos" color="black" indeterminate></v-progress-linear>
+            <v-progress-linear v-else color="black" indeterminate></v-progress-linear>
             
             <template v-if="starredRepos.length > 0">
 
@@ -153,9 +153,10 @@ export default {
           // If an another page exists, fetch the page
           if (nextUrl) {
             this.fetchStarredRepos(null, nextUrl)
+          } else {
+            this.loading = false
           }
         } else { // nextUrl is defined
-          console.log(nextUrl)
           // More pages, so fetch this page and add the result to the global array
           const response = await axios.get(nextUrl)
           this.updateStarredRepos(response.data)
@@ -166,7 +167,6 @@ export default {
             this.fetchStarredRepos(null, anotherPage)
           }
         }
-        console.log(linkHeader.next.url)
         this.starredRepos = response.data.map(star => ({
           name: star.full_name,
           owner_img: star.owner.avatar_url,
@@ -176,6 +176,7 @@ export default {
       } catch (error) {
         this.error = error.response.data.message
       }
+      this.loading = false
     },
     updateStarredRepos (newStarredRepos) {
       const newRepos = newStarredRepos.map(star => ({
@@ -188,15 +189,16 @@ export default {
     },
     exportToHTML () {
       this.snackbar = true
-      console.log('Export to HTML')
     },
     exportToJSON () {
       this.snackbar = true
-      console.log('Export to JSON')
     }
   },
   watch: {
     username () {
+      this.starredRepos = []
+      this.page = 0
+      this.lastPage = null
       if (this.username.length > 0) {
         this.loading = true
       } else {
