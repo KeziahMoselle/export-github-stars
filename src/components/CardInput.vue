@@ -47,32 +47,40 @@
             <no-data v-if="!starredRepos && !loading"></no-data>
             <v-progress-linear v-if="loading && !starredRepos" color="black" indeterminate></v-progress-linear>
             
-            <v-list v-if="starredRepos">
-              <transition-group name="slide-x-transition" mode="out-in">
-                <v-list-tile
-                  v-for="(star, index) in starredRepos"
-                  :key="index"
-                  avatar
-                  :href="star.html_url"
-                  target="_blank">
-                  <v-list-tile-avatar>
-                    <img :src="star.owner_img">
-                  </v-list-tile-avatar>
+            <template v-if="starredRepos">
+
+              <v-subheader>
+                {{ starredRepos.length }} starred repositories found.
+              </v-subheader>
+
+              <v-list>
+                <transition-group name="slide-x-transition" mode="out-in">
+                  <v-list-tile
+                    v-for="(star, index) in starredRepos"
+                    :key="index"
+                    avatar
+                    :href="star.html_url"
+                    target="_blank">
+                    <v-list-tile-avatar>
+                      <img :src="star.owner_img">
+                    </v-list-tile-avatar>
 
 
-                  <v-list-tile-content>
-                    <v-list-tile-title v-text="star.name"></v-list-tile-title>
-                  </v-list-tile-content>
+                    <v-list-tile-content>
+                      <v-list-tile-title v-text="star.name"></v-list-tile-title>
+                    </v-list-tile-content>
 
-                  <v-list-tile-action>
-                    <span>
-                      {{ star.stars }}
-                      <v-icon color="black">star</v-icon>
-                    </span>
-                  </v-list-tile-action>
-                </v-list-tile>
-              </transition-group>
-            </v-list>
+                    <v-list-tile-action>
+                      <span>
+                        {{ star.stars }}
+                        <v-icon color="black">star</v-icon>
+                      </span>
+                    </v-list-tile-action>
+                  </v-list-tile>
+                </transition-group>
+              </v-list>
+
+            </template>
 
           </v-card-text>
         </v-card>

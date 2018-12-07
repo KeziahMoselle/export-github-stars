@@ -2,6 +2,7 @@
   <v-toolbar app>
     <v-toolbar-title class="headline text-uppercase">
       <span>GitHub</span>
+      <img src="@/assets/star.svg" alt="Star icon">
       <span class="font-weight-light">EXPORT</span>
     </v-toolbar-title>
     <v-spacer></v-spacer>
