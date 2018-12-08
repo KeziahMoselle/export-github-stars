@@ -5,6 +5,19 @@
       dark
       extended
       flat>
+      <v-layout justify-center>
+        <v-btn-toggle v-model="sortStars" mandatory>
+          <v-btn flat>
+            <v-icon>access_time</v-icon>
+          </v-btn>
+          <v-btn flat>
+            <v-icon>arrow_drop_up</v-icon>
+          </v-btn>
+          <v-btn flat>
+            <v-icon>arrow_drop_down</v-icon>
+          </v-btn>
+        </v-btn-toggle>
+      </v-layout>
     </v-toolbar>
 
     <v-layout row pb-5>
@@ -137,7 +150,8 @@ export default {
       loading: false,
       starredRepos: [],
       error: null,
-      snackbar: false
+      snackbar: false,
+      sortStars: 0
     }
   },
   methods: {
@@ -196,6 +210,14 @@ export default {
     },
     exportToJSON () {
       this.snackbar = true
+    }
+  },
+  computed: {
+    sortedArrayAsc () {
+      return this.starredRepos.sort((a, b) => a.stars - b.stars)
+    },
+    sortedArrayDesc () {
+      return this.starredRepos.sort((a, b) => b.stars - a.stars)
     }
   },
   watch: {
