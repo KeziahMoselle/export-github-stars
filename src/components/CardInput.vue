@@ -2,6 +2,7 @@
   <v-card flat>
     <v-toolbar
       color="black"
+      :height="`${$vuetify.breakpoint.xsOnly ? 86 : 64}`"
       dark
       extended
       flat>
@@ -40,7 +41,7 @@
                 @click:append="fetchStarredRepos"
                 solo>
               </v-text-field>
-              <v-menu transition="slide-y-transition" bottom>
+              <v-menu transition="slide-y-transition" bottom v-if="!$vuetify.breakpoint.xsOnly">
                 <v-btn
                   slot="activator"
                   class="btn-export"
