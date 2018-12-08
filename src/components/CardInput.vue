@@ -71,11 +71,11 @@
 
               <v-layout wrap justify-space-between>
                 <v-subheader>
-                  {{ starredRepos.length }} starred repositories found.
+                  {{ starredRepos.length }} repositories found
                 </v-subheader>
 
                 <v-subheader>
-                 Page : {{ page }} / {{ lastPage }}
+                 Page : {{ page }} / {{ lastPage || 1 }}
                 </v-subheader>
               </v-layout>
 
