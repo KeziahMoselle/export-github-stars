@@ -5,19 +5,24 @@
       dark
       extended
       flat>
-      <v-layout justify-center>
-        <v-btn-toggle v-model="sortStars" mandatory>
-          <v-btn flat>
-            <v-icon>access_time</v-icon>
-          </v-btn>
-          <v-btn flat>
-            <v-icon>arrow_drop_up</v-icon>
-          </v-btn>
-          <v-btn flat>
-            <v-icon>arrow_drop_down</v-icon>
-          </v-btn>
-        </v-btn-toggle>
-      </v-layout>
+      <template v-if="starredRepos.length > 0">
+        <transition name="slide-x-transition">
+          <v-layout justify-center class="sort-container">
+            <v-checkbox
+              label="Reverse"
+              v-model="sortReverse">
+            </v-checkbox>
+            <v-btn-toggle v-model="sortStars">
+              <v-btn flat>
+                <v-icon>arrow_drop_up</v-icon>
+              </v-btn>
+              <v-btn flat>
+                <v-icon>arrow_drop_down</v-icon>
+              </v-btn>
+            </v-btn-toggle>
+          </v-layout>
+        </transition>
+      </template>
     </v-toolbar>
 
     <v-layout row pb-5>
@@ -92,33 +97,7 @@
                 </v-subheader>
               </v-layout>
 
-              <v-list>
-                <transition-group name="slide-x-transition" mode="out-in">
-                  <v-list-tile
-                    v-for="(star, index) in starredRepos"
-                    :key="index"
-                    avatar
-                    ripple
-                    :href="star.html_url"
-                    target="_blank">
-                    <v-list-tile-avatar>
-                      <img :src="star.owner_img">
-                    </v-list-tile-avatar>
-
-
-                    <v-list-tile-content>
-                      <v-list-tile-title v-text="star.name"></v-list-tile-title>
-                    </v-list-tile-content>
-
-                    <v-list-tile-action>
-                      <span>
-                        {{ star.stars }}
-                        <v-icon color="black">star</v-icon>
-                      </span>
-                    </v-list-tile-action>
-                  </v-list-tile>
-                </transition-group>
-              </v-list>
+              <stars-list :sort="sortStars" :sort-reverse="sortReverse" :starred-repos="starredRepos"></stars-list>
 
             </template>
 
@@ -133,12 +112,14 @@
 import axios from 'axios'
 import linkParser from 'parse-link-header'
 
+import StarsList from '@/components/StarsList'
 import NoData from '@/components/NoData'
 import Error from '@/components/Error'
 
 export default {
   name: 'CardInput',
   components: {
+    StarsList,
     NoData,
     Error
   },
@@ -151,7 +132,8 @@ export default {
       starredRepos: [],
       error: null,
       snackbar: false,
-      sortStars: 0
+      sortStars: null,
+      sortReverse: false
     }
   },
   methods: {
@@ -212,14 +194,6 @@ export default {
       this.snackbar = true
     }
   },
-  computed: {
-    sortedArrayAsc () {
-      return this.starredRepos.sort((a, b) => a.stars - b.stars)
-    },
-    sortedArrayDesc () {
-      return this.starredRepos.sort((a, b) => b.stars - a.stars)
-    }
-  },
   watch: {
     username () {
       this.starredRepos = []
@@ -237,6 +211,10 @@ export default {
 </script>
 
 <style>
+
+  .sort-container {
+    max-height: 36px;
+  }
 
   .card--flex-toolbar {
     margin-top: -64px;
