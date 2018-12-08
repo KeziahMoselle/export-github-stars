@@ -60,7 +60,7 @@
               </v-btn>
             </v-snackbar>
 
-            <error v-if="error && starredRepos.length === 0" :message="error"></error>
+            <error v-if="error && starredRepos.length === 0" :error="error"></error>
             <no-data v-if="starredRepos.length === 0 && !loading && !error"></no-data>
             <template v-else-if="loading">
               <v-progress-linear color="black" indeterminate></v-progress-linear>
@@ -177,7 +177,7 @@ export default {
           stars: star.stargazers_count
         }))
       } catch (error) {
-        this.error = error.response.data.message
+        this.error = error
       }
       this.loading = false
     },
@@ -203,6 +203,7 @@ export default {
       this.starredRepos = []
       this.page = 0
       this.lastPage = null
+      this.error = null
       if (this.username.length > 0) {
         this.loading = true
       } else {

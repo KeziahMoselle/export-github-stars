@@ -4,7 +4,7 @@
     <v-layout column class="text-xs-center">
       <img class="illustration" src="@/assets/error.svg" alt="Undraw.co Error Illustration">
       <h2>Sorry, there was an error.</h2>
-      <h4 class="grey--text">{{ message }}</h4>
+      <h4 class="grey--text">{{ errorMessage }}</h4>
     </v-layout>
   </transition>
 
@@ -14,9 +14,18 @@
 export default {
   name: 'Error',
   props: {
-    message: {
-      type: String,
+    error: {
+      type: Error,
       required: true
+    }
+  },
+  computed: {
+    errorMessage () {
+      if (this.error.response) {
+        return `${this.error.response.status} - ${this.error.response.statusText}`
+      } else {
+        return 'Unknown error.'
+      }
     }
   }
 }
