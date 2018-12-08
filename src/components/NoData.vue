@@ -1,9 +1,10 @@
 <template>
 
   <transition name="slide-y-transition" mode="out-in">
-    <v-layout column>
+    <v-layout column class="text-xs-center">
       <img class="illustration" src="@/assets/no-data.svg" alt="Undraw.co No data Illustration">
-      <h2 class="text-xs-center">No data available</h2>
+      <h2>No data available</h2>
+      <h4 class="grey--text">Search for a username and hit enter !</h4>
     </v-layout>
   </transition>
 
