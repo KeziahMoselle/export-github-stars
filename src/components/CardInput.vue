@@ -167,12 +167,6 @@ export default {
             this.fetchStarredRepos(null, anotherPage)
           }
         }
-        this.starredRepos = response.data.map(star => ({
-          name: star.full_name,
-          owner_img: star.owner.avatar_url,
-          html_url: star.html_url,
-          stars: star.stargazers_count
-        }))
       } catch (error) {
         this.error = error
       }

@@ -63,6 +63,9 @@ export default {
     },
     sortReverse () {
       this.sortedRepos.reverse()
+    },
+    starredRepos () {
+      this.sortedRepos = this.starredRepos
     }
   }
 }
