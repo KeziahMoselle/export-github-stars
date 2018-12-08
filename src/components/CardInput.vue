@@ -10,7 +10,8 @@
           <v-layout justify-center class="sort-container">
             <v-checkbox
               label="Reverse"
-              v-model="sortReverse">
+              v-model="sortReverse"
+              color="white">
             </v-checkbox>
             <v-btn-toggle v-model="sortStars">
               <v-btn flat>
