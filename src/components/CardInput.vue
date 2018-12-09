@@ -50,7 +50,7 @@
                   Export to...
                 </v-btn>
                 <v-list>
-                  <v-list-tile @click="exportToHTML">
+                  <v-list-tile @click="exportToHTML(starredRepos, username)">
                     <v-list-tile-title>
                       <v-layout justify-space-between>
                         HTML
@@ -58,7 +58,7 @@
                       </v-layout>
                     </v-list-tile-title>
                   </v-list-tile>
-                  <v-list-tile @click="exportToJSON">
+                  <v-list-tile @click="exportToJSON(starredRepos, username)">
                     <v-list-tile-title>
                       <v-layout justify-space-between>
                         JSON
@@ -109,11 +109,13 @@
 <script>
 import axios from 'axios'
 import linkParser from 'parse-link-header'
-import download from 'downloadjs'
 
 import StarsList from '@/components/StarsList'
 import NoData from '@/components/NoData'
 import Error from '@/components/Error'
+
+import exportToHTML from '@/exports/html'
+import exportToJSON from '@/exports/json'
 
 export default {
   name: 'CardInput',
@@ -179,18 +181,8 @@ export default {
       this.starredRepos = [...this.starredRepos, ...newRepos]
       this.loading = false
     },
-    exportToHTML () {
-      let data = `<h1>${this.username}'s starred repositories :</h1>`
-      this.starredRepos.forEach(repo => {
-        data += `<p><a href="${repo.html_url}">${repo.name} (${repo.stars}⭐)</a></p>`
-      })
-      download(data, `${this.username}-starred.html`, 'text/html')
-    },
-    exportToJSON () {
-      const data = JSON.stringify(this.starredRepos)
-      const blob = new Blob([data])
-      download(blob, `${this.username}-starred.json`, 'application/json')
-    }
+    exportToHTML,
+    exportToJSON
   },
   watch: {
     username () {
