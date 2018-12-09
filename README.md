@@ -7,6 +7,7 @@
 </p>
 
 ![preview.png](https://puu.sh/CeQMB/e26c3560c2.png)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FKeziahMoselle%2Fexport-github-stars.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FKeziahMoselle%2Fexport-github-stars?ref=badge_shield)
 
 ## Project setup
 ```
@@ -40,3 +41,7 @@ yarn run test:unit
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FKeziahMoselle%2Fexport-github-stars.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FKeziahMoselle%2Fexport-github-stars?ref=badge_large)
