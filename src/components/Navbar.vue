@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar app>
+  <v-toolbar>
     <v-toolbar-title class="headline text-uppercase">
       <span>GitHub</span>
       <img src="@/assets/star.svg" alt="Star icon">
@@ -10,7 +10,7 @@
       flat
       href="//github.com/KeziahMoselle/export-github-stars"
       target="_blank">
-      <span class="mr-2">Source code</span>
+      <span class="mr-2">Repository</span>
       <img src="@/assets/repo.svg" alt="Repository Icon">
     </v-btn>
   </v-toolbar>

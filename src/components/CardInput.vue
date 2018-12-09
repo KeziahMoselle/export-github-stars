@@ -248,5 +248,9 @@ export default {
     width: 24px;
   }
 
+  .theme--light.v-card {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
 </style>
 
