@@ -113,6 +113,7 @@
 <script>
 import axios from 'axios'
 import linkParser from 'parse-link-header'
+import download from 'downloadjs'
 
 import StarsList from '@/components/StarsList'
 import NoData from '@/components/NoData'
@@ -185,9 +186,16 @@ export default {
     },
     exportToHTML () {
       this.snackbar = true
+      let data = `<h1>${this.username}'s starred repositories :</h1>`
+      this.starredRepos.forEach(repo => {
+        data += `<p><a href="${repo.html_url}">${repo.name} (${repo.stars}⭐)</a></p>`
+      })
+      download(data, `${this.username}-starred.html`, 'text/html')
     },
     exportToJSON () {
-      this.snackbar = true
+      const data = JSON.stringify(this.starredRepos)
+      const blob = new Blob([data])
+      download(blob, `${this.username}-starred.json`, 'application/json')
     }
   },
   watch: {
