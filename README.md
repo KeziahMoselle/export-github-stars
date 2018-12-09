@@ -1,4 +1,12 @@
-# ghexports
+<h3 align="center">Export GitHub Stars</h3>
+ <p align="center">
+   View / Sort / Export your Starred repositories.
+   <br>
+<p align="center">
+<a href='https://github.com/standard/standard'> <img src='https://cdn.rawgit.com/standard/standard/master/badge.svg' alt='StandardJS'</a>
+</p>
+
+![preview.png](https://puu.sh/CeQMB/e26c3560c2.png)
 
 ## Project setup
 ```
