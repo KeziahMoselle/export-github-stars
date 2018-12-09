@@ -51,10 +51,20 @@
                 </v-btn>
                 <v-list>
                   <v-list-tile @click="exportToHTML">
-                    <v-list-tile-title>HTML</v-list-tile-title>
+                    <v-list-tile-title>
+                      <v-layout justify-space-between>
+                        HTML
+                      <img src="@/assets/html.svg" alt="HTML Logo">
+                      </v-layout>
+                    </v-list-tile-title>
                   </v-list-tile>
                   <v-list-tile @click="exportToJSON">
-                    <v-list-tile-title>JSON</v-list-tile-title>
+                    <v-list-tile-title>
+                      <v-layout justify-space-between>
+                        JSON
+                      <img src="@/assets/json.svg" alt="JSON logo">
+                      </v-layout>
+                    </v-list-tile-title>
                   </v-list-tile>
                 </v-list>
               </v-menu>
@@ -231,6 +241,11 @@ export default {
   .btn-export {
     height: 48px;
     margin: 0;
+  }
+
+  .v-list__tile__title img {
+    height: 24px;
+    width: 24px;
   }
 
 </style>
