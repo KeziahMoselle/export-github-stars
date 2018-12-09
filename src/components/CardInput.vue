@@ -76,20 +76,6 @@
 
           <v-card-text>
 
-            <v-snackbar
-              v-model="snackbar"
-              :timeout="5000"
-              top>
-              This feature is under development...
-              <v-btn
-                color="white"
-                flat
-                @click="snackbar = false">
-                close
-                <v-icon right>close</v-icon>
-              </v-btn>
-            </v-snackbar>
-
             <error v-if="error && starredRepos.length === 0" :error="error"></error>
             <no-data v-if="starredRepos.length === 0 && !loading && !error"></no-data>
             <template v-else-if="loading">
@@ -144,7 +130,6 @@ export default {
       loading: false,
       starredRepos: [],
       error: null,
-      snackbar: false,
       sortStars: null,
       sortReverse: false
     }
@@ -195,7 +180,6 @@ export default {
       this.loading = false
     },
     exportToHTML () {
-      this.snackbar = true
       let data = `<h1>${this.username}'s starred repositories :</h1>`
       this.starredRepos.forEach(repo => {
         data += `<p><a href="${repo.html_url}">${repo.name} (${repo.stars}⭐)</a></p>`
