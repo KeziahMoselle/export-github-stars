@@ -12,7 +12,6 @@
           <img :src="star.owner_img">
         </v-list-tile-avatar>
 
-
         <v-list-tile-content>
           <v-list-tile-title v-text="star.name"></v-list-tile-title>
         </v-list-tile-content>
@@ -36,7 +35,7 @@ export default {
       type: Array,
       required: true
     },
-    sort : {
+    sort: {
       type: Number,
       required: false
     },

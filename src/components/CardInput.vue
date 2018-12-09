@@ -96,7 +96,7 @@
               <v-progress-linear color="black" indeterminate></v-progress-linear>
               <h3 class="text-xs-center">Type enter to search for : {{ username }}</h3>
             </template>
-            
+
             <template v-if="starredRepos.length > 0">
 
               <v-layout wrap justify-space-between>
@@ -253,4 +253,3 @@ export default {
   }
 
 </style>
-
