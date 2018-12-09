@@ -2,7 +2,7 @@
   <v-card flat>
     <v-toolbar
       color="black"
-      :height="`${$vuetify.breakpoint.xsOnly ? 86 : 64}`"
+      :height="`${$vuetify.breakpoint.xsOnly ? 70 : 64}`"
       dark
       extended
       flat>
@@ -75,6 +75,35 @@
           <v-divider></v-divider>
 
           <v-card-text>
+            <v-layout v-if="$vuetify.breakpoint.xsOnly" justify-center>
+              <v-menu transition="slide-y-transition" bottom>
+                <v-btn
+                  slot="activator"
+                  class="btn-export"
+                  color="black"
+                  dark>
+                  Export to...
+                </v-btn>
+                <v-list>
+                  <v-list-tile @click="exportToHTML(starredRepos, username)">
+                    <v-list-tile-title>
+                      <v-layout justify-space-between>
+                        HTML
+                      <img src="@/assets/html.svg" alt="HTML Logo">
+                      </v-layout>
+                    </v-list-tile-title>
+                  </v-list-tile>
+                  <v-list-tile @click="exportToJSON(starredRepos, username)">
+                    <v-list-tile-title>
+                      <v-layout justify-space-between>
+                        JSON
+                      <img src="@/assets/json.svg" alt="JSON logo">
+                      </v-layout>
+                    </v-list-tile-title>
+                  </v-list-tile>
+                </v-list>
+              </v-menu>
+            </v-layout>
 
             <error v-if="error && starredRepos.length === 0" :error="error"></error>
             <no-data v-if="starredRepos.length === 0 && !loading && !error"></no-data>
@@ -84,7 +113,6 @@
             </template>
 
             <template v-if="starredRepos.length > 0">
-
               <v-layout wrap justify-space-between>
                 <v-subheader>
                   {{ starredRepos.length }} repositories found
@@ -96,7 +124,6 @@
               </v-layout>
 
               <stars-list :sort="sortStars" :sort-reverse="sortReverse" :starred-repos="starredRepos"></stars-list>
-
             </template>
 
           </v-card-text>
