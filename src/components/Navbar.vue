@@ -10,7 +10,7 @@
       flat
       href="//github.com/KeziahMoselle/export-github-stars"
       target="_blank">
-      <span class="mr-2">Repository</span>
+      <span class="mr-2">Source Code</span>
       <img src="@/assets/repo.svg" alt="Repository Icon">
     </v-btn>
   </v-toolbar>
