@@ -8,13 +8,42 @@
       flat>
       <template v-if="starredRepos.length > 0">
         <transition name="slide-x-transition">
-          <v-layout justify-center class="sort-container">
-            <v-checkbox
-              label="Reverse"
-              v-model="sortReverse"
-              color="white">
-            </v-checkbox>
+          <v-layout
+            :justify-space-between="$vuetify.breakpoint.xsOnly"
+            :justify-center="$vuetify.breakpoint.smAndUp"
+            align-center
+            class="sort-container">
+            <v-menu v-if="$vuetify.breakpoint.xsOnly" transition="slide-y-transition" bottom>
+              <v-btn
+                slot="activator"
+                class="btn-export black--text"
+                color="white">
+                Export to...
+              </v-btn>
+              <v-list>
+                <v-list-tile @click="exportToHTML(starredRepos, username)">
+                  <v-list-tile-title>
+                    <v-layout justify-space-between>
+                      HTML
+                    <img src="@/assets/html.svg" alt="HTML Logo">
+                    </v-layout>
+                  </v-list-tile-title>
+                </v-list-tile>
+                <v-list-tile @click="exportToJSON(starredRepos, username)">
+                  <v-list-tile-title>
+                    <v-layout justify-space-between>
+                      JSON
+                    <img src="@/assets/json.svg" alt="JSON logo">
+                    </v-layout>
+                  </v-list-tile-title>
+                </v-list-tile>
+              </v-list>
+            </v-menu>
+
             <v-btn-toggle v-model="sortStars">
+              <v-btn @click="sortReverse = !sortReverse" flat>
+                <v-icon>history</v-icon>
+              </v-btn>
               <v-btn flat>
                 <v-icon>arrow_drop_up</v-icon>
               </v-btn>
@@ -76,33 +105,7 @@
 
           <v-card-text>
             <v-layout v-if="$vuetify.breakpoint.xsOnly" justify-center>
-              <v-menu transition="slide-y-transition" bottom>
-                <v-btn
-                  slot="activator"
-                  class="btn-export"
-                  color="black"
-                  dark>
-                  Export to...
-                </v-btn>
-                <v-list>
-                  <v-list-tile @click="exportToHTML(starredRepos, username)">
-                    <v-list-tile-title>
-                      <v-layout justify-space-between>
-                        HTML
-                      <img src="@/assets/html.svg" alt="HTML Logo">
-                      </v-layout>
-                    </v-list-tile-title>
-                  </v-list-tile>
-                  <v-list-tile @click="exportToJSON(starredRepos, username)">
-                    <v-list-tile-title>
-                      <v-layout justify-space-between>
-                        JSON
-                      <img src="@/assets/json.svg" alt="JSON logo">
-                      </v-layout>
-                    </v-list-tile-title>
-                  </v-list-tile>
-                </v-list>
-              </v-menu>
+              
             </v-layout>
 
             <error v-if="error && starredRepos.length === 0" :error="error"></error>
@@ -241,7 +244,7 @@ export default {
     margin-bottom: 0;
   }
 
-  .btn-export {
+  .btn-export:not(.black--text) {
     height: 48px;
     margin: 0;
   }
@@ -253,6 +256,10 @@ export default {
 
   .theme--light.v-card {
     background-color: rgba(0, 0, 0, 0);
+  }
+
+  .reversed {
+    filter: brightness(50%);
   }
 
 </style>
