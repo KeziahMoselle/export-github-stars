@@ -1,12 +1,18 @@
 <template>
-  <v-app>
+  <v-app v-scroll="toggleBtn">
     <navbar></navbar>
     <v-content>
       <card-input></card-input>
     </v-content>
-    <v-btn fab small class="btn-top" @click="scrollToTop">
-      <v-icon>keyboard_arrow_up</v-icon>
-    </v-btn>
+    <transition name="slide-y-transition" mode="out-in">
+      <v-btn
+        v-if="toggle"
+        @click="scrollToTop"
+        class="btn-top"
+        small>
+        <v-icon>keyboard_arrow_up</v-icon>
+      </v-btn>
+    </transition>
     <Footer></Footer>
   </v-app>
 </template>
@@ -23,7 +29,16 @@ export default {
     CardInput,
     Footer
   },
+  data () {
+    return {
+      toggle: false
+    }
+  },
   methods: {
+    toggleBtn () {
+      const scrollTop = document.documentElement.scrollTop
+      scrollTop >= 300 ? this.toggle = true : this.toggle = false
+    },
     scrollToTop () {
       document.querySelector('.v-toolbar')
         .scrollIntoView({
