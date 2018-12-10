@@ -17,10 +17,10 @@
         </v-list-tile-content>
 
         <v-list-tile-action>
-          <span>
+          <v-layout justify-end>
             {{ star.stars }}
             <v-icon color="black">star</v-icon>
-          </span>
+          </v-layout>
         </v-list-tile-action>
       </v-list-tile>
     </transition-group>
