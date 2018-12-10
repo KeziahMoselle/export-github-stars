@@ -8,9 +8,9 @@
       <v-btn
         v-if="toggle"
         @click="scrollToTop"
-        class="btn-top"
-        fab
-        small>
+        class="btn-top white--text"
+        color="black"
+        fab>
         <v-icon>keyboard_arrow_up</v-icon>
       </v-btn>
     </transition>
