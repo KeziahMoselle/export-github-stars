@@ -9,6 +9,7 @@
         v-if="toggle"
         @click="scrollToTop"
         class="btn-top"
+        fab
         small>
         <v-icon>keyboard_arrow_up</v-icon>
       </v-btn>
