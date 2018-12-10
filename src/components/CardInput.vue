@@ -40,17 +40,22 @@
               </v-list>
             </v-menu>
 
-            <v-btn-toggle v-model="sortStars">
-              <v-btn @click="sortReverse = !sortReverse" flat>
-                <v-icon>history</v-icon>
-              </v-btn>
-              <v-btn flat>
-                <v-icon>arrow_drop_up</v-icon>
-              </v-btn>
-              <v-btn flat>
-                <v-icon>arrow_drop_down</v-icon>
-              </v-btn>
-            </v-btn-toggle>
+            <div>
+              <v-btn-toggle>
+                <v-btn @click="sortReverse = !sortReverse" flat>
+                  <v-icon>history</v-icon>
+                </v-btn>
+              </v-btn-toggle>
+
+              <v-btn-toggle v-model="sortStars">
+                <v-btn flat>
+                  <v-icon>arrow_drop_up</v-icon>
+                </v-btn>
+                <v-btn flat>
+                  <v-icon>arrow_drop_down</v-icon>
+                </v-btn>
+              </v-btn-toggle>
+            </div>
           </v-layout>
         </transition>
       </template>
@@ -104,9 +109,6 @@
           <v-divider></v-divider>
 
           <v-card-text>
-            <v-layout v-if="$vuetify.breakpoint.xsOnly" justify-center>
-              
-            </v-layout>
 
             <error v-if="error && starredRepos.length === 0" :error="error"></error>
             <no-data v-if="starredRepos.length === 0 && !loading && !error"></no-data>
@@ -126,7 +128,11 @@
                 </v-subheader>
               </v-layout>
 
-              <stars-list :sort="sortStars" :sort-reverse="sortReverse" :starred-repos="starredRepos"></stars-list>
+              <stars-list
+                :sort="sortStars"
+                :reversed="sortReverse"
+                :repos="starredRepos">
+              </stars-list>
             </template>
 
           </v-card-text>
