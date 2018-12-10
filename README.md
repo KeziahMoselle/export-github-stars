@@ -6,7 +6,7 @@
 <a href='https://github.com/standard/standard'> <img src='https://cdn.rawgit.com/standard/standard/master/badge.svg' alt='StandardJS'</a>
 </p>
 
-![preview.png](https://puu.sh/CeQMB/e26c3560c2.png)
+![preview.gif](./preview.gif)
 
 ## Project setup
 ```
