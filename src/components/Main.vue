@@ -151,9 +151,9 @@
 import axios from 'axios'
 import linkParser from 'parse-link-header'
 
-import StarsList from '@/components/StarsList'
-import NoData from '@/components/NoData'
-import Error from '@/components/Error'
+import StarsList from '@/components/Stars/StarsList'
+import NoData from '@/components/Status/NoData'
+import Error from '@/components/Status/Error'
 
 import exportToHTML from '@/exports/html'
 import exportToJSON from '@/exports/json'

@@ -2,7 +2,7 @@
   <v-app v-scroll="toggleBtn">
     <navbar></navbar>
     <v-content>
-      <card-input></card-input>
+      <Main></Main>
     </v-content>
     <transition name="slide-y-transition" mode="out-in">
       <v-btn
@@ -20,14 +20,14 @@
 
 <script>
 import Navbar from '@/components/Navbar'
-import CardInput from '@/components/CardInput'
+import Main from '@/components/Main'
 import Footer from '@/components/Footer'
 
 export default {
   name: 'App',
   components: {
     Navbar,
-    CardInput,
+    Main,
     Footer
   },
   data () {
