@@ -110,9 +110,12 @@
 
           <v-card-text>
 
-            <h3 v-if="!starredRepos" class="text-xs-center">Type enter to search for : {{ username }}</h3>
+            <template v-if="!error && starredRepos.length === 0">
+              <no-data v-if="username.length === 0"></no-data>
+              <h3 v-else-if="username.length > 0" class="text-xs-center">Type enter to search for : {{ username }}</h3>
+            </template>
+
             <error v-if="error && starredRepos.length === 0" :error="error"></error>
-            <no-data v-if="starredRepos.length === 0 && !loading && !error"></no-data>
 
             <template v-if="starredRepos.length > 0">
               <v-layout wrap justify-space-between>
