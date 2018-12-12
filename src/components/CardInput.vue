@@ -110,12 +110,9 @@
 
           <v-card-text>
 
+            <h3 v-if="!starredRepos" class="text-xs-center">Type enter to search for : {{ username }}</h3>
             <error v-if="error && starredRepos.length === 0" :error="error"></error>
             <no-data v-if="starredRepos.length === 0 && !loading && !error"></no-data>
-            <template v-else-if="loading">
-              <v-progress-linear color="black" indeterminate></v-progress-linear>
-              <h3 class="text-xs-center">Type enter to search for : {{ username }}</h3>
-            </template>
 
             <template v-if="starredRepos.length > 0">
               <v-layout wrap justify-space-between>
@@ -125,6 +122,14 @@
 
                 <v-subheader>
                  Page : {{ page }} / {{ lastPage || 1 }}
+                 <v-progress-circular
+                  v-if="loading"
+                  class="ml-2"
+                  size="16"
+                  width="2"
+                  indeterminate
+                  color="primary">
+                </v-progress-circular>
                 </v-subheader>
               </v-layout>
 
@@ -173,41 +178,43 @@ export default {
     }
   },
   methods: {
-    async fetchStarredRepos (event, nextUrl) {
-      this.page++
-      const url = nextUrl || `https://api.github.com/users/${this.username}/starred?per_page=100&page=${this.page}`
+    async fetchStarredRepos () {
       try {
+        const url = `https://api.github.com/users/${this.username}/starred?per_page=100&page=1`
         // Fetch the first page
-        if (!nextUrl) {
-          const response = await axios.get(url)
-          this.updateStarredRepos(response.data)
-          // Check if there is an another page
-          const { url: nextUrl } = linkParser(response.headers.link).next
-          const { page: lastPage } = linkParser(response.headers.link).last
-          this.lastPage = lastPage
-          // If an another page exists, fetch the page
-          if (nextUrl) {
-            this.fetchStarredRepos(null, nextUrl)
-          } else {
-            this.loading = false
-          }
-        } else { // nextUrl is defined
-          // More pages, so fetch this page and add the result to the global array
-          const response = await axios.get(nextUrl)
-          this.updateStarredRepos(response.data)
-          // Check if there is an another page
-          const { url: anotherPage } = linkParser(response.headers.link).next
-          // If an another page exists, fetch the page
-          if (anotherPage) {
-            this.fetchStarredRepos(null, anotherPage)
-          }
+        const response = await axios.get(url)
+        // Add result to starredRepos
+        this.updateStarredRepos(response.data)
+        // Check if there is an another page
+        const { url: nextUrl } = linkParser(response.headers.link).next
+        const { page: lastPage } = linkParser(response.headers.link).last
+        console.log(linkParser(response.headers.link).last)
+        console.log(lastPage)
+        this.lastPage = lastPage
+        // If an another page exists, fetch the page
+        if (nextUrl) {
+          this.fetchNextPage(nextUrl)
+        } else {
+          this.loading = false
         }
       } catch (error) {
         this.error = error
       }
-      this.loading = false
+    },
+    async fetchNextPage (nextUrl) {
+      // More pages, so fetch this page and add the result to the global array
+      const response = await axios.get(nextUrl)
+      // Add the repos in starredRepos
+      this.updateStarredRepos(response.data)
+      // Check if there is an another page
+      const { url: anotherPage } = linkParser(response.headers.link).next
+      // If an another page exists, fetch the page
+      if (anotherPage) {
+        this.fetchNextPage(nextUrl)
+      }
     },
     updateStarredRepos (newStarredRepos) {
+      this.page++
       const newRepos = newStarredRepos.map(star => ({
         name: star.full_name,
         owner_img: star.owner.avatar_url,
@@ -226,11 +233,6 @@ export default {
       this.page = 0
       this.lastPage = null
       this.error = null
-      if (this.username.length > 0) {
-        this.loading = true
-      } else {
-        this.loading = false
-      }
     }
   }
 }
