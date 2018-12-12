@@ -188,8 +188,6 @@ export default {
         // Check if there is an another page
         const { url: nextUrl } = linkParser(response.headers.link).next
         const { page: lastPage } = linkParser(response.headers.link).last
-        console.log(linkParser(response.headers.link).last)
-        console.log(lastPage)
         this.lastPage = lastPage
         // If an another page exists, fetch the page
         if (nextUrl) {
@@ -222,7 +220,9 @@ export default {
         stars: star.stargazers_count
       }))
       this.starredRepos = [...this.starredRepos, ...newRepos]
-      this.loading = false
+      if (this.lastPage === this.page) {
+        this.loading = false
+      }
     },
     exportToHTML,
     exportToJSON
