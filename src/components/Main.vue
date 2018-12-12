@@ -130,6 +130,7 @@
                   indeterminate
                   color="primary">
                 </v-progress-circular>
+                <v-icon v-else class="ml-2">check</v-icon>
                 </v-subheader>
               </v-layout>
 
@@ -179,6 +180,7 @@ export default {
   },
   methods: {
     async fetchStarredRepos () {
+      if (this.page > 0) return
       try {
         this.loading = true
         const url = `https://api.github.com/users/${this.username}/starred?per_page=100&page=1`
