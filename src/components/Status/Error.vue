@@ -24,7 +24,8 @@ export default {
       if (this.error.response) {
         return `${this.error.response.status} - ${this.error.response.statusText}`
       } else {
-        return 'Unknown error.'
+        console.error(this.error)
+        return this.error.message
       }
     }
   }

@@ -126,7 +126,7 @@
                   v-if="loading"
                   class="ml-2"
                   size="16"
-                  width="2"
+                  :width="2"
                   indeterminate
                   color="primary">
                 </v-progress-circular>
@@ -159,7 +159,7 @@ import exportToHTML from '@/exports/html'
 import exportToJSON from '@/exports/json'
 
 export default {
-  name: 'CardInput',
+  name: 'Main',
   components: {
     StarsList,
     NoData,
@@ -169,7 +169,7 @@ export default {
     return {
       username: '',
       page: 0,
-      lastPage: null,
+      lastPage: 1,
       loading: false,
       starredRepos: [],
       error: null,
@@ -180,35 +180,36 @@ export default {
   methods: {
     async fetchStarredRepos () {
       try {
+        this.loading = true
         const url = `https://api.github.com/users/${this.username}/starred?per_page=100&page=1`
         // Fetch the first page
         const response = await axios.get(url)
+        // If there is an another page, set values
+        if (response.headers.link) {
+          const { url: nextUrl } = linkParser(response.headers.link).next
+          const { page: lastPage } = linkParser(response.headers.link).last
+          this.lastPage = parseInt(lastPage)
+          this.fetchNextPage(nextUrl)
+        }
         // Add result to starredRepos
         this.updateStarredRepos(response.data)
         // Check if there is an another page
-        const { url: nextUrl } = linkParser(response.headers.link).next
-        const { page: lastPage } = linkParser(response.headers.link).last
-        this.lastPage = lastPage
-        // If an another page exists, fetch the page
-        if (nextUrl) {
-          this.fetchNextPage(nextUrl)
-        } else {
-          this.loading = false
-        }
       } catch (error) {
         this.error = error
       }
     },
     async fetchNextPage (nextUrl) {
-      // More pages, so fetch this page and add the result to the global array
+      // More pages, so fetch this page and add the result to the view
       const response = await axios.get(nextUrl)
       // Add the repos in starredRepos
       this.updateStarredRepos(response.data)
       // Check if there is an another page
-      const { url: anotherPage } = linkParser(response.headers.link).next
-      // If an another page exists, fetch the page
-      if (anotherPage) {
-        this.fetchNextPage(nextUrl)
+      if (response.headers.link) {
+        // There is an another page
+        const { url: anotherPage } = linkParser(response.headers.link).next
+        if (anotherPage) {
+          this.fetchNextPage(anotherPage)
+        }
       }
     },
     updateStarredRepos (newStarredRepos) {
@@ -221,6 +222,7 @@ export default {
       }))
       this.starredRepos = [...this.starredRepos, ...newRepos]
       if (this.lastPage === this.page) {
+        console.log('Stop loading', this.lastPage, ' ', this.page)
         this.loading = false
       }
     },
@@ -231,7 +233,7 @@ export default {
     username () {
       this.starredRepos = []
       this.page = 0
-      this.lastPage = null
+      this.lastPage = 1
       this.error = null
     }
   }
