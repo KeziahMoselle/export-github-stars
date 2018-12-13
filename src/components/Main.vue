@@ -137,11 +137,11 @@
                 </v-subheader>
               </v-layout>
 
-              <stars-list
+              <stars-sorted
                 :sort="sortStars"
                 :reversed="sortReverse"
                 :repos="starredRepos">
-              </stars-list>
+              </stars-sorted>
             </template>
 
           </v-card-text>
@@ -155,7 +155,7 @@
 import axios from 'axios'
 import linkParser from 'parse-link-header'
 
-import StarsList from '@/components/Stars/StarsList'
+import StarsSorted from '@/components/Stars/StarsSorted'
 import NoData from '@/components/Status/NoData'
 import Error from '@/components/Status/Error'
 
@@ -165,7 +165,7 @@ import exportToJSON from '@/exports/json'
 export default {
   name: 'Main',
   components: {
-    StarsList,
+    StarsSorted,
     NoData,
     Error
   },
@@ -227,7 +227,6 @@ export default {
       }))
       this.starredRepos = [...this.starredRepos, ...newRepos]
       if (this.lastPage === this.page) {
-        console.log('Stop loading', this.lastPage, ' ', this.page)
         this.loading = false
       }
     },
