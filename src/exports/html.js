@@ -1,13 +1,25 @@
 import download from 'downloadjs'
+import axios from 'axios'
 
-export default function (starredRepos, username) {
+export default async function (starredRepos, username) {
+  let css
+  try {
+    // If SkeletonCSS is online, we can put the CSS inline
+    // Offline version
+    const request = await axios.get('https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css')
+    css = `<style>${request.data}</style>`
+  } catch (e) {
+    // Can't GET the css of Skeleton
+    // Online version
+    css = '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" />'
+  }
   const header = `
     <!DOCTYPE html>
     <html lang="en">
     <head>
       <meta charset="UTF-8">
       <title>${username}'s starred repositories</title>
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" />
+      ${css}
     </head>
     <body class="container">
       <h1 style="margin-top: 40px; margin-bottom: 10px;">${username}'s</h1>
