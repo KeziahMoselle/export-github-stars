@@ -6,7 +6,7 @@
       :key="index"
       :repo="repo">
     </stars-list-item>
-    
+
     <stars-list-item
       v-if="mode === 'reversed'"
       v-for="(repo, index) in reversedRepos"
@@ -73,15 +73,15 @@ export default {
       switch (this.sort) {
         case 0:
           this.mode = 'asc'
-        break
+          break
 
         case 1:
           this.mode = 'desc'
-        break
+          break
 
         default:
           this.mode = undefined
-        break
+          break
       }
     },
     reversed () {
