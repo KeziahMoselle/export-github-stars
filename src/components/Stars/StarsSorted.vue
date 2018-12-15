@@ -27,6 +27,13 @@
       :key="index"
       :repo="repo">
     </stars-list-item>
+
+    <stars-list-item
+      v-if="mode === 'lang'"
+      v-for="(repo, index) in sortedLang"
+      :key="index"
+      :repo="repo">
+    </stars-list-item>
   </v-list>
 </template>
 
@@ -50,6 +57,10 @@ export default {
     reversed: {
       type: Boolean,
       required: false
+    },
+    lang: {
+      type: Boolean,
+      required: false
     }
   },
   data () {
@@ -66,6 +77,9 @@ export default {
     },
     reversedRepos () {
       return [...this.repos].reverse()
+    },
+    sortedLang () {
+      return [...this.repos].sort((a, b) => a.lang !== b.lang ? a.lang < b.lang ? -1 : 1 : 0)
     }
   },
   watch: {
@@ -87,6 +101,13 @@ export default {
     reversed () {
       if (this.reversed) {
         this.mode = 'reversed'
+      } else {
+        this.mode = undefined
+      }
+    },
+    lang () {
+      if (this.lang) {
+        this.mode = 'lang'
       } else {
         this.mode = undefined
       }

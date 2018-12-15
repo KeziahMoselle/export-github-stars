@@ -47,6 +47,12 @@
                 </v-btn>
               </v-btn-toggle>
 
+              <v-btn-toggle>
+                <v-btn @click="sortLang = !sortLang" flat>
+                  <v-icon>code</v-icon>
+                </v-btn>
+              </v-btn-toggle>
+
               <v-btn-toggle v-model="sortStars">
                 <v-btn flat>
                   <v-icon>arrow_drop_up</v-icon>
@@ -140,6 +146,7 @@
               <stars-sorted
                 :sort="sortStars"
                 :reversed="sortReverse"
+                :lang="sortLang"
                 :repos="starredRepos">
               </stars-sorted>
             </template>
@@ -178,7 +185,8 @@ export default {
       starredRepos: [],
       error: null,
       sortStars: null,
-      sortReverse: false
+      sortReverse: false,
+      sortLang: false
     }
   },
   methods: {
@@ -220,9 +228,10 @@ export default {
     updateStarredRepos (newStarredRepos) {
       this.page++
       const newRepos = newStarredRepos.map(star => ({
+        html_url: star.html_url,
+        lang: star.language,
         name: star.full_name,
         owner_img: star.owner.avatar_url,
-        html_url: star.html_url,
         stars: star.stargazers_count
       }))
       this.starredRepos = [...this.starredRepos, ...newRepos]
@@ -274,6 +283,10 @@ export default {
 
   .reversed {
     filter: brightness(50%);
+  }
+
+  .v-card__text {
+    background-color: white;
   }
 
 </style>
