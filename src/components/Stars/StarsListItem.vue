@@ -240,7 +240,7 @@ export default {
 <style scoped>
 
   .lang-border {
-    border: 2px solid rgba(0, 0, 0, 0.1);
+    border: 3px solid rgba(0, 0, 0, 0.1);
   }
 
 </style>
