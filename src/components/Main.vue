@@ -81,7 +81,10 @@
                 @click:append="fetchStarredRepos"
                 solo>
               </v-text-field>
-              <v-menu transition="slide-y-transition" bottom v-if="!$vuetify.breakpoint.xsOnly">
+              <v-menu
+                v-if="!$vuetify.breakpoint.xsOnly"
+                transition="slide-y-transition"
+                bottom>
                 <v-btn
                   slot="activator"
                   class="btn-export"
@@ -90,19 +93,28 @@
                   Export to...
                 </v-btn>
                 <v-list>
-                  <v-list-tile @click="exportToHTML(starredRepos, username)">
+                  <template v-if="starredRepos.length > 0">
+                    <v-list-tile @click="exportToHTML(starredRepos, username)">
+                      <v-list-tile-title>
+                        <v-layout justify-space-between>
+                          HTML
+                        <img src="@/assets/html.svg" alt="HTML Logo">
+                        </v-layout>
+                      </v-list-tile-title>
+                    </v-list-tile>
+                    <v-list-tile @click="exportToJSON(starredRepos, username)">
+                      <v-list-tile-title>
+                        <v-layout justify-space-between>
+                          JSON
+                        <img src="@/assets/json.svg" alt="JSON logo">
+                        </v-layout>
+                      </v-list-tile-title>
+                    </v-list-tile>
+                  </template>
+                  <v-list-tile v-else>
                     <v-list-tile-title>
-                      <v-layout justify-space-between>
-                        HTML
-                      <img src="@/assets/html.svg" alt="HTML Logo">
-                      </v-layout>
-                    </v-list-tile-title>
-                  </v-list-tile>
-                  <v-list-tile @click="exportToJSON(starredRepos, username)">
-                    <v-list-tile-title>
-                      <v-layout justify-space-between>
-                        JSON
-                      <img src="@/assets/json.svg" alt="JSON logo">
+                      <v-layout justify-center>
+                        Waiting repos...
                       </v-layout>
                     </v-list-tile-title>
                   </v-list-tile>
@@ -118,7 +130,7 @@
 
             <template v-if="!error && starredRepos.length === 0">
               <no-data v-if="username.length === 0"></no-data>
-              <h3 v-else-if="username.length > 0" class="text-xs-center">Type enter to search for : {{ username }}</h3>
+              <h3 v-else-if="username.length > 0" class="text-xs-center font-weight-regular">Type enter to search for : <b>{{ username }}</b></h3>
             </template>
 
             <error v-if="error && starredRepos.length === 0" :error="error"></error>
