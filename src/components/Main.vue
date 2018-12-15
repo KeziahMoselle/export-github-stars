@@ -301,4 +301,8 @@ export default {
     background-color: white;
   }
 
+  .v-btn-toggle {
+    margin: 0 4px;
+  }
+
 </style>
