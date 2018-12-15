@@ -2,6 +2,7 @@ import download from 'downloadjs'
 import axios from 'axios'
 
 export default async function (starredRepos, username) {
+  if (starredRepos.length === 0) return
   let css
   try {
     // If SkeletonCSS is online, we can put the CSS inline
