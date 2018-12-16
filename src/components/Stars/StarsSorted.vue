@@ -79,7 +79,7 @@ export default {
       return [...this.repos].reverse()
     },
     sortedLang () {
-      return [...this.repos].sort((a, b) => a.lang !== b.lang ? a.lang < b.lang ? -1 : 1 : 0)
+      return [...this.repos].sort((a, b) => a.lang !== null ? a.lang.localeCompare(b.lang) : -1)
     }
   },
   watch: {
