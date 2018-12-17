@@ -5,23 +5,22 @@
     :href="repo.html_url"
     target="_blank">
 
-    <v-layout wrap>
-      <v-list-tile-avatar>
-        <img class="lang-border" :src="repo.owner_img" :style="`border-color: ${classLang[repo.lang]};`">
-      </v-list-tile-avatar>
+    <v-list-tile-avatar>
+      <img class="lang-border" :src="repo.owner_img" :style="`border-color: ${classLang[repo.lang]};`">
+    </v-list-tile-avatar>
 
-      <v-list-tile-content>
-        <v-list-tile-title>{{ repo.name }}</v-list-tile-title>
-        <v-list-tile-sub-title v-if="repo.lang">{{ repo.lang }}</v-list-tile-sub-title>
-      </v-list-tile-content>
+    <v-list-tile-content>
+      <v-list-tile-title>{{ repo.name }}</v-list-tile-title>
+      <v-list-tile-sub-title v-if="repo.lang">{{ repo.lang }}</v-list-tile-sub-title>
+    </v-list-tile-content>
 
-      <v-list-tile-action class="mr-2">
-        <v-layout justify-end>
-          {{ repo.stars }}
-          <v-icon color="black" class="ml-1">star</v-icon>
-        </v-layout>
-      </v-list-tile-action>
-    </v-layout>
+    <v-list-tile-action>
+      <v-layout justify-end>
+        {{ repo.stars }}
+        <v-icon color="black" class="ml-1">star</v-icon>
+      </v-layout>
+    </v-list-tile-action>
+
   </v-list-tile>
 </template>
 

@@ -136,7 +136,7 @@
             <error v-if="error && starredRepos.length === 0" :error="error"></error>
 
             <template v-if="starredRepos.length > 0">
-              <v-layout wrap justify-space-between>
+              <v-layout wrap :justify-space-between="$vuetify.breakpoint.smAndUp" :justify-center="$vuetify.breakpoint.xsOnly">
                 <v-subheader>
                   {{ starredRepos.length }} repositories found
                 </v-subheader>
