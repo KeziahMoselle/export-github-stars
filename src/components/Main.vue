@@ -42,22 +42,22 @@
 
             <div>
               <v-btn-toggle>
-                <v-btn @click="sortReverse = !sortReverse" flat>
+                <v-btn title="Reverse" @click="sortReverse = !sortReverse" flat>
                   <v-icon>history</v-icon>
                 </v-btn>
               </v-btn-toggle>
 
               <v-btn-toggle>
-                <v-btn @click="sortLang = !sortLang" flat>
+                <v-btn title="Sort by language" @click="sortLang = !sortLang" flat>
                   <v-icon>code</v-icon>
                 </v-btn>
               </v-btn-toggle>
 
               <v-btn-toggle v-model="sortStars">
-                <v-btn flat>
+                <v-btn title="Sort by stars ASC" flat>
                   <v-icon>arrow_drop_up</v-icon>
                 </v-btn>
-                <v-btn flat>
+                <v-btn title="Sort by stars DESC" flat>
                   <v-icon>arrow_drop_down</v-icon>
                 </v-btn>
               </v-btn-toggle>
