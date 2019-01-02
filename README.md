@@ -8,6 +8,18 @@
 
 ![preview.gif](./preview.gif)
 
+## Features
+- Sort
+  - Reverse (historical)
+  - By language
+  - Stars : ASC
+  - Stars : DESC
+- Export
+  - HTML
+  ![export-html](./export-html.png)
+  - JSON
+  ![export-json](./export-json.png)
+
 ## Project setup
 ```
 yarn install
