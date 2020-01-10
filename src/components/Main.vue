@@ -194,11 +194,41 @@ export default {
       page: 0,
       lastPage: 1,
       loading: false,
-      starredRepos: [],
+      starredRepos: [
+        {
+          html_url: 'https://github.com/ES-Community/nsecure',
+          lang: 'JavaScript',
+          name: 'ES-Community/nsecure',
+          owner_img: 'https://avatars2.githubusercontent.com/u/20496608?v=4',
+          stars: 26
+        },
+        {
+          html_url: 'https://github.com/ES-Community/nsecure',
+          lang: 'JavaScript',
+          name: 'ES-Community/nsecure',
+          owner_img: 'https://avatars2.githubusercontent.com/u/20496608?v=4',
+          stars: 26
+        },
+        {
+          html_url: 'https://github.com/ES-Community/nsecure',
+          lang: 'Ruby',
+          name: 'ES-Community/nsecure',
+          owner_img: 'https://avatars2.githubusercontent.com/u/20496608?v=4',
+          stars: 26
+        },
+        {
+          html_url: 'https://github.com/ES-Community/nsecure',
+          lang: 'Ruby',
+          name: 'ES-Community/nsecure',
+          owner_img: 'https://avatars2.githubusercontent.com/u/20496608?v=4',
+          stars: 26
+        }
+      ],
       error: null,
       sortStars: null,
       sortReverse: false,
-      sortLang: false
+      sortLang: false,
+      groupByLang: true // change to false by default
     }
   },
   methods: {
@@ -251,10 +281,29 @@ export default {
         this.loading = false
       }
     },
+    group () {
+      const languages = {}
+      this.starredRepos.forEach(repo => {
+        if (languages[repo.lang]) return
+        languages[repo.lang] = []
+      })
+
+      this.starredRepos.forEach(repo => {
+        languages[repo.lang].push(repo)
+      })
+
+      console.log(languages)
+    },
     exportToHTML,
     exportToJSON
   },
+  created () {
+    this.group()
+  },
   watch: {
+    starredRepos () {
+      console.log(this.starredRepos)
+    },
     username () {
       this.starredRepos = []
       this.page = 0
