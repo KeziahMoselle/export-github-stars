@@ -240,14 +240,19 @@ export default {
     updateStarredRepos (newStarredRepos) {
       this.page++
       const newRepos = newStarredRepos.map(star => ({
-        html_url: star.html_url,
-        homepage: star.homepage,
-        lang: star.language,
         name: star.full_name,
         description: star.description,
         topics: star.topics,
-        last_update: star.pushed_at,
+        html_url: star.html_url,
+        homepage: star.homepage,
+        lang: star.language,
+        created: star.created_at,
+        last_push: star.pushed_at,
+        last_update: star.updated_at,
+        forked: star.fork,
         archived: star.archived,
+        template: star.template_repository.html_url,
+        owner: star.owner.html_url,
         owner_img: star.owner.avatar_url,
         stars: star.stargazers_count
       }))
