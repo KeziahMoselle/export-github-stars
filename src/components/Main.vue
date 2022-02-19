@@ -251,7 +251,7 @@ export default {
         last_update: star.updated_at,
         forked: star.fork,
         archived: star.archived,
-        template: star.template_repository.html_url,
+        template: star.is_template,
         owner: star.owner.html_url,
         owner_img: star.owner.avatar_url,
         stars: star.stargazers_count
