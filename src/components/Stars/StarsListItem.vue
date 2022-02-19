@@ -10,7 +10,7 @@
     </v-list-tile-avatar>
 
     <v-list-tile-content>
-      <v-list-tile-title>{{ repo.name }}</v-list-tile-title>
+      <v-list-tile-title>{{ repo.owner }}/{{ repo.name }}</v-list-tile-title>
       <v-list-tile-sub-title v-if="repo.lang">{{ repo.lang }}</v-list-tile-sub-title>
     </v-list-tile-content>
 
@@ -35,7 +35,7 @@ export default {
   },
   data () {
     return {
-      classLang : {
+      classLang: {
         Mercury: '#ff2b2b',
         TypeScript: '#2b7489',
         PureBasic: '#5a6986',
