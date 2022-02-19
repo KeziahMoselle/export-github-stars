@@ -241,8 +241,13 @@ export default {
       this.page++
       const newRepos = newStarredRepos.map(star => ({
         html_url: star.html_url,
+        homepage: star.homepage,
         lang: star.language,
         name: star.full_name,
+        description: star.description,
+        topics: star.topics,
+        last_update: star.pushed_at,
+        archived: star.archived,
         owner_img: star.owner.avatar_url,
         stars: star.stargazers_count
       }))
